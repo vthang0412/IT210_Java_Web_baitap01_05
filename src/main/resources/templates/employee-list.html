@@ -2,28 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Employees</title>
+    <title>Employee List</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
-<h2>Employee List</h2>
+<div class="container">
+    <h2>Employee Management</h2>
 
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Status</th>
-        <th>Department</th>
-    </tr>
+    <a th:href="@{/employees/add}" class="btn">+ Add Employee</a>
 
-    <tr th:each="emp : ${employees}">
-        <td th:text="${emp.name}"></td>
-        <td th:text="${emp.age}"></td>
-        <td th:text="${emp.status}"></td>
-        <td th:text="${emp.department.name}"></td>
-    </tr>
+    <table>
+        <thead>
+        <tr>
+            <th>Avatar</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Status</th>
+            <th>Department</th>
+        </tr>
+        </thead>
 
-</table>
+        <tbody>
+        <tr th:each="emp : ${employees}">
+            <td>
+                <img th:src="@{'/uploads/' + ${emp.avatar}}" class="avatar"/>
+            </td>
+            <td th:text="${emp.name}"></td>
+            <td th:text="${emp.age}"></td>
+            <td>
+                <span th:text="${emp.status}"
+                      th:classappend="${emp.status == 'ACTIVE'} ? 'active' : 'inactive'">
+                </span>
+            </td>
+            <td th:text="${emp.department.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>
