@@ -4,6 +4,7 @@ body {
     margin: 0;
 }
 
+/* CONTAINER */
 .container {
     width: 80%;
     margin: 30px auto;
@@ -12,10 +13,12 @@ body {
     border-radius: 10px;
 }
 
+/* TITLE */
 h2 {
     margin-bottom: 20px;
 }
 
+/* BUTTON */
 .btn {
     display: inline-block;
     padding: 8px 15px;
@@ -38,9 +41,11 @@ h2 {
     background: #c0392b;
 }
 
+/* TABLE */
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 15px;
 }
 
 table th, table td {
@@ -54,6 +59,7 @@ table th {
     color: white;
 }
 
+/* AVATAR */
 .avatar {
     width: 60px;
     height: 60px;
@@ -61,6 +67,7 @@ table th {
     object-fit: cover;
 }
 
+/* FORM */
 .form-group {
     margin-bottom: 15px;
 }
@@ -71,12 +78,63 @@ input, select {
     margin-top: 5px;
 }
 
-.active {
+/* SEARCH */
+form {
+    margin-bottom: 10px;
+}
+
+form input {
+    width: 200px;
+    display: inline-block;
+}
+
+form button {
+    padding: 6px 10px;
+}
+
+/* LINK SORT */
+a {
+    margin-right: 10px;
+}
+
+/* STATUS */
+.status-active {
     color: green;
     font-weight: bold;
 }
 
-.inactive {
+.status-inactive {
     color: red;
     font-weight: bold;
+}
+
+/* PAGINATION */
+.pagination {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: black;
+}
+
+.pagination a:hover {
+    background: #ddd;
+}
+
+.pagination .active {
+    font-weight: bold;
+    color: white;
+    background: #3498db;
+    border-radius: 5px;
+}
+
+/* EMPTY TEXT */
+p {
+    margin-top: 10px;
+    font-style: italic;
 }

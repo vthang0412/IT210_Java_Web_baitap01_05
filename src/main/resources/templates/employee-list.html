@@ -10,6 +10,29 @@
 <div class="container">
     <h2>Employee Management</h2>
 
+
+    <form th:action="@{/employees}" method="get">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDir" th:value="${sortDir}">
+
+        <input type="text" name="keyword" placeholder="Search name..." th:value="${keyword}">
+        <button type="submit">Search</button>
+    </form>
+
+    <div>
+        <a th:href="@{/employees(page=0, sortField='name', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, keyword=${keyword})}">
+            Sort by Name
+        </a>
+
+        |
+
+        <a th:href="@{/employees(page=0, sortField='age', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'}, keyword=${keyword})}">
+            Sort by Age
+        </a>
+    </div>
+
+    <br>
+
     <a th:href="@{/employees/add}" class="btn">+ Add Employee</a>
 
     <table>
@@ -26,19 +49,45 @@
         <tbody>
         <tr th:each="emp : ${employees}">
             <td>
-                <img th:src="@{'/uploads/' + ${emp.avatar}}" class="avatar"/>
+                <img th:src="@{'/uploads/' + ${emp.avatar}}"
+                     onerror="this.src='/uploads/default.png'"
+                     class="avatar"/>
             </td>
             <td th:text="${emp.name}"></td>
             <td th:text="${emp.age}"></td>
             <td>
-                <span th:text="${emp.status}"
-                      th:classappend="${emp.status == 'ACTIVE'} ? 'active' : 'inactive'">
-                </span>
+               <span th:text="${emp.status}"
+                     th:classappend="${emp.status == 'ACTIVE'} ? 'status-active' : 'status-inactive'">
+</span>
             </td>
             <td th:text="${emp.department.name}"></td>
         </tr>
         </tbody>
     </table>
+
+    <p th:if="${employees.isEmpty()}">Không tìm thấy nhân viên nào</p>
+
+    <div class="pagination">
+
+        <a th:if="${currentPage > 0}"
+           th:href="@{/employees(page=${currentPage - 1}, sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">
+            Previous
+        </a>
+
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/employees(page=${i}, sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}"
+               th:text="${i + 1}"
+               th:classappend="${i == currentPage} ? 'active'">
+            </a>
+        </span>
+
+        <a th:if="${currentPage < totalPages - 1}"
+           th:href="@{/employees(page=${currentPage + 1}, sortField=${sortField}, sortDir=${sortDir}, keyword=${keyword})}">
+            Next
+        </a>
+
+    </div>
+
 </div>
 
 </body>

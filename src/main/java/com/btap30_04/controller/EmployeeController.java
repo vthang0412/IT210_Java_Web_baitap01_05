@@ -5,6 +5,10 @@ import com.btap30_04.entity.Department;
 import com.btap30_04.entity.Employee;
 import com.btap30_04.repository.DepartmentRepository;
 import com.btap30_04.repository.EmployeeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +31,36 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public String list(Model model) {
-        model.addAttribute("employees", employeeRepository.findAll());
+    public String list(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            @RequestParam(required = false) String keyword,
+            Model model) {
+
+        int size = 3;
+
+        Sort sort = sortDir.equals("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Employee> employeePage;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            employeePage = employeeRepository.findByNameContainingIgnoreCase(keyword, pageable);
+        } else {
+            employeePage = employeeRepository.findAll(pageable);
+        }
+
+        model.addAttribute("employees", employeePage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", employeePage.getTotalPages());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("keyword", keyword);
+
         return "employee-list";
     }
 
